@@ -1,0 +1,71 @@
+<blank [pageTitle]="pageTitle()" [pageIcon]="pageIcon()" (changeStatusEvent)="changeStatus($event)"
+  [status]="data().isActive" [loading]="loading()" colSize="col-md-5">
+  <form #form="ngForm" formValidate class="admin-form" (ngSubmit)="save(form)">
+    <div class="admin-card">
+      <div class="card-header">
+        <h6>
+          <i class="bi bi-info-circle text-primary me-2"></i>Temel Bilgiler
+        </h6>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label>Adı (*)</label>
+            <input type="text" class="form-control" [(ngModel)]="data().firstName" name="firstName" required />
+            <div class="invalid-feedback">Geçerli bir ad girin !</div>
+          </div>
+          <div class="form-group col-md-6">
+            <label>Soyadı (*)</label>
+            <input type="text" class="form-control" [(ngModel)]="data().lastName" name="lastName" required />
+            <div class="invalid-feedback">Geçerli bir soyad girin !</div>
+          </div>
+        </div>
+          <div class="form-group">
+          <label>Kulalnıcı Adı (*)</label>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="userNameLocal"
+              name="userName"
+              required
+            />
+            <span class="input-group-text px-3 text-nowrap username-domain">@sakarya.edu.tr</span>
+          </div>
+          <div class="invalid-feedback">Geçerli bir kullanıcı adı girin !</div>
+        </div>
+        <div class="row">
+
+          <div class="form-group col-md-6">
+            <label>Rol (*)</label>
+            <select class="form-select" [ngModel]="data().roleId" name="roleId" required
+              (ngModelChange)="setRoleId($event)">
+              <option [ngValue]="null" disabled>-- Rol Seçin --</option>
+              @for (role of roles(); track role.id) {
+              <option [ngValue]="role.id">{{ role.name | roleNameTr }}</option>
+              }
+            </select>
+
+            <div class="invalid-feedback">Geçerli bir rol seçin !</div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    <div class="admin-card">
+      <div class="card-header">
+        <h6>
+          <i class="bi bi-info-circle text-primary me-2"></i>Birimler ve Bölümler
+        </h6>
+      </div>
+
+    </div>
+    <div class="form-group mt-2 d-flex justify-content-end">
+      <button type="submit" class="btn btn-primary">
+        <i class="bi" [ngClass]="pageIcon()"></i>
+        {{btnName()}}
+      </button>
+    </div>
+  </form>
+</blank>

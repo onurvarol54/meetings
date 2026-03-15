@@ -1,0 +1,19 @@
+<title> TYS | Kullanıcı Rol İzinleri </title>
+
+<div class="d-flex justify-content-end mb-2">
+  <button class="btn btn-primary" (click)="updatePermissions()">Güncelle</button>
+</div>
+
+
+<flexi-treeview
+  [data]="data()"
+  language="tr"
+  [loading]="loading()"
+  [treeviewTitle]="treeviewTitle() | roleNameTr"
+  [showActions]="true"
+  [showCheckbox]="true"
+  [showDeleteButton]="false"
+  [showEditButton]="false"
+  (onRefresh)="result.reload()"
+  (onSelected)="onSelected($event)"
+  ></flexi-treeview>

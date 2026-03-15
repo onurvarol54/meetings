@@ -1,0 +1,38 @@
+<blank [pageTitle]="pageTitle()" pageIcon="bi-zoom-in" [showStatusCheckbox]="false" [showStatus]="true"
+  [status]="data().isActive" [showAudit]="true" [audit]="data()" [loading]="loading()" colSize="col-md-8">
+  <div class="admin-card">
+    <div class="card-header">
+      <h6><i class="bi bi-info-circle text-primary me-2"></i>Temel Bilgileri</h6>
+    </div>
+    <div class="card-body">
+      <div class="detail-grid">
+        <div class="detail-item">
+          <label class="detail-label">Rol Adı</label>
+          <span class="detail-value">
+            {{data().name | toTitleCaseTr}}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-card">
+    <div class="card-header">
+      <h6><i class="bi bi-key text-primary me-2"></i>İzinler</h6>
+    </div>
+    <div class="card-body">
+      <div class="detail-grid">
+        <div class="detail-item">
+          @for (item of data().permissions; track item) {
+          <span class="detail-value">
+            {{item}}
+          </span>
+          }@empty {
+            <span style="opacity: 0.4;"><i>İzin yok</i></span>
+          }
+
+        </div>
+      </div>
+    </div>
+  </div>
+</blank>

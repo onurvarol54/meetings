@@ -1,0 +1,215 @@
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-brand">
+    <span class="brand-text">TYS</span>
+      <span class="admin-badge">Yönetim Paneli</span>
+    </div>
+    <button class="sidebar-toggle d-block d-lg-block" id="sidebarToggle">
+      <i class="bi bi-list"></i>
+    </button>
+  </div>
+
+  <div class="sidebar-content">
+    <ul class="sidebar-menu">
+      @for (nav of navigations(); track nav.title) {
+        @if (!nav.haveSubmenu && checkPermission(nav.permission)) {
+          <li
+            class="menu-item"
+            [routerLink]="nav.url"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact:nav.url === '/' }">
+            <a class="menu-link">
+              <i class="bi" [ngClass]="nav.icon"></i>
+              <span class="menu-text">{{nav.title}}</span>
+            </a>
+          </li>
+          }@else if(checkPermission(nav.permission)) {
+            <li class="menu-item">
+              <a href="#" class="menu-link">
+                <i class="bi" [ngClass]="nav.icon"></i>
+                <span class="menu-text">{{nav.title}}</span>
+                <i class="bi bi-chevron-right menu-arrow"></i>
+              </a>
+              <ul class="submenu">
+                @for (subNav of nav.subMenus; track subNav.title) {
+                  @if(checkPermission(subNav.permission)){
+                    <li><a href="#" [routerLink]="subNav.url">{{subNav.title}}</a></li>
+                  }
+                }
+              </ul>
+            </li>
+          }}
+        <!-- <li class="menu-divider"></li>
+
+        <li class="menu-item">
+          <a href="#" class="menu-link">
+            <i class="bi bi-life-preserver"></i>
+            <span class="menu-text">Destek</span>
+          </a>
+        </li> -->
+    </ul>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="user-info">
+      <div class="user-avatar">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNBRW6kw4PvewS5EGHKY7nNsJiWvrbsVIzZA&s"
+          alt="Admin" />
+      </div>
+      <div class="user-details">
+        <span class="user-name">{{userDecode().fullName}}</span>
+        <span class="user-role">{{userDecode().role | roleNameTr}}</span>
+      </div>
+    </div>
+  </div>
+</nav>
+<!-- Main Wrapper -->
+<div class="main-wrapper">
+  <!-- Top Navbar -->
+  <header class="navbar-custom">
+    <div class="navbar-content">
+      <!-- Left Side - Breadcrumb -->
+      <div class="navbar-left">
+        <button class="mobile-sidebar-toggle d-lg-none">
+          <i class="bi bi-list"></i>
+        </button>
+        <nav aria-label="breadcrumb">
+          <app-breadcrumb />
+        </nav>
+      </div>
+
+      <!-- Right Side - Profile & Notifications -->
+      <div class="navbar-right">
+        <!-- Notifications -->
+        <!-- <div class="notification-dropdown">
+          <button class="notification-btn" data-bs-toggle="dropdown">
+            <i class="bi bi-bell"></i>
+            <span class="notification-badge">3</span>
+          </button>
+          <ul class="dropdown-menu notification-menu">
+            <li class="notification-header">
+              <h6>Bildirimler</h6>
+              <span class="badge bg-primary">3 Yeni</span>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li class="notification-item">
+              <div class="notification-icon bg-success">
+                <i class="bi bi-check-circle"></i>
+              </div>
+              <div class="notification-content">
+                <h6>Yeni Rezervasyon</h6>
+                <p>BMW 320i için yeni rezervasyon alındı</p>
+                <small>5 dakika önce</small>
+              </div>
+            </li>
+            <li class="notification-item">
+              <div class="notification-icon bg-warning">
+                <i class="bi bi-exclamation-triangle"></i>
+              </div>
+              <div class="notification-content">
+                <h6>Bakım Hatırlatması</h6>
+                <p>Mercedes C180'in bakım zamanı geldi</p>
+                <small>2 saat önce</small>
+              </div>
+            </li>
+            <li class="notification-item">
+              <div class="notification-icon bg-info">
+                <i class="bi bi-info-circle"></i>
+              </div>
+              <div class="notification-content">
+                <h6>Sistem Güncellemesi</h6>
+                <p>Yeni özellikler eklendi</p>
+                <small>1 gün önce</small>
+              </div>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li class="notification-footer">
+              <a href="#">Tüm Bildirimleri Gör</a>
+            </li>
+          </ul>
+        </div> -->
+
+        <!-- Profile Dropdown -->
+        <div class="profile-dropdown">
+          <button class="profile-btn" data-bs-toggle="dropdown">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNBRW6kw4PvewS5EGHKY7nNsJiWvrbsVIzZA&s"
+              alt="Profile" class="profile-avatar" />
+            <span class="layout-profile-name">{{userDecode().fullName}}</span>
+            <i class="bi bi-chevron-down"></i>
+          </button>
+          <ul class="dropdown-menu profile-menu">
+            <li class="profile-header">
+              <div class="profile-info">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNBRW6kw4PvewS5EGHKY7nNsJiWvrbsVIzZA&s"
+                  alt="Profile" />
+                <div>
+                  <h6>{{userDecode().fullName}}</h6>
+                  <p>{{userDecode().email}}</p>
+                  <span class="role-badge">{{userDecode().role | roleNameTr}}</span>
+                </div>
+              </div>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <!-- <li>
+              <a href="#" class="dropdown-item">
+                <i class="bi bi-person"></i>
+                Profilim
+              </a>
+            </li>
+            <li>
+              <a href="#" class="dropdown-item">
+                <i class="bi bi-gear"></i>
+                Hesap Ayarları
+              </a>
+            </li>
+            <li>
+              <a href="#" class="dropdown-item">
+                <i class="bi bi-bell"></i>
+                Bildirim Ayarları
+              </a>
+            </li>
+            <li>
+              <a href="#" class="dropdown-item">
+                <i class="bi bi-shield-check"></i>
+                Güvenlik
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li>
+              <a href="#" class="dropdown-item">
+                <i class="bi bi-question-circle"></i>
+                Yardım & Destek
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li> -->
+            <li (click)="logOut()">
+              <a class="dropdown-item text-danger" >
+                <i class="bi bi-box-arrow-right"></i>
+                Çıkış Yap
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="content-wrapper">
+      <!-- Dashboard Content -->
+      <router-outlet />
+    </div>
+  </main>
+</div>

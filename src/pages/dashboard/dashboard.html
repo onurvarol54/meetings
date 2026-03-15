@@ -1,0 +1,85 @@
+<blank pageTitle="Dashboard" pageIcon="bi-speedometer2" pageDescription="Sistem genel durumu ve performans göstergeleri"
+  [showBackBtn]="false" [showStatusCheckbox]="false">
+
+
+  <!-- Quick Actions -->
+  <div class="row g-4">
+    <div class="col-12">
+      <div class="admin-card">
+        <div class="card-header">
+          <h6>
+            <i class="bi bi-lightning text-primary me-2"></i>Hızlı İşlemler
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="quick-actions-grid">
+            @if (checkPermission("agenda:add")) {
+            <div class="quick-action-item">
+              <div class="quick-action-icon bg-primary">
+                <i class="bi bi-plus-circle"></i>
+              </div>
+              <h6>Yeni Gündem</h6>
+              <p>Hızlı gündem oluştur</p>
+              <button routerLink="/agendas/add" class="btn btn-sm btn-primary">Oluştur</button>
+            </div>
+            }
+            @if (checkPermission("board-decision:add")) {
+            <div class="quick-action-item">
+              <div class="quick-action-icon bg-secondary">
+                <i class="bi bi-calendar-event"></i>
+              </div>
+              <h6>Eğitim Birimi Toplantıları</h6>
+              <p>Toplantı ekle/güncelle</p>
+              <button routerLink="/meetings" class="btn btn-sm btn-secondary">Ekle/Güncelle</button>
+            </div>
+            }
+            @if (checkPermission("agenda:management-agendas")) {
+            <div class="quick-action-item">
+              <div class="quick-action-icon bg-success">
+                <i class="bi bi-calendar-event"></i>
+              </div>
+              <h6>Daire Başkanlığı Toplantıları</h6>
+              <p>Toplantı gündem ve yorumları</p>
+              <button routerLink="/managements" class="btn btn-sm btn-success">Görüntüle</button>
+            </div>
+            }
+
+            @if (checkPermission("agenda:coordination-agendas")) {
+            <div class="quick-action-item">
+              <div class="quick-action-icon bg-dark">
+                <i class="bi bi-calendar-event"></i>
+              </div>
+              <h6>Koordinasyon Toplantıları</h6>
+              <p>Toplantı gündem ve yorumları</p>
+              <button routerLink="/coordination" class="btn btn-sm btn-dark">Görüntüle</button>
+            </div>
+            }
+            @if (checkPermission("branch:view")) {
+            <div class="quick-action-item">
+              <div class="quick-action-icon bg-warning">
+                <i class="bi bi-buildings"></i>
+              </div>
+              <h6>Eğitim Birimleri</h6>
+              <p>Eğitim birimi ekle/güncelle</p>
+              <button routerLink="/branches" class="btn btn-sm btn-warning">Ekle/Güncelle</button>
+            </div>
+            }
+            @if (checkPermission("user:view")) {
+            <div class="quick-action-item">
+              <div class="quick-action-icon bg-info">
+                <i class="bi bi-people"></i>
+              </div>
+              <h6>Kullanıcılar</h6>
+              <p>Kullanıcı ekle/güncelle</p>
+              <button routerLink="/users" class="btn btn-sm btn-info">Ekle/Güncelle</button>
+            </div>
+            }
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</blank>

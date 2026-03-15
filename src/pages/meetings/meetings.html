@@ -1,0 +1,46 @@
+<grid  #meetingsGrid
+  pageTitle="Toplantılar"
+  captionTitle="Toplantı Listesi"
+  endpoint="/board-decisions/odata/meetings"
+  [addOptions]="{url:'/meetings/add', permission:'meeting:add'}"
+  [addModalOptions]="{ click: openAddModal, permission:'meeting:add'}"
+  [editOptions]="{url:'/meetings/edit', permission:'meeting:edit'}"
+  [detailOptions]="{url:'/meetings/detail', permission:'meeting:view'}"
+  [deleteOptions]="{url:'/meetings', permission:'meeting:delete'}"
+  [breadcrumbs]="breadcrumbs()"
+  >
+  <flexi-grid-column field="title" title="Başlık" />
+ <flexi-grid-column field="examType" title="Sınav Türü">
+  <ng-template flexiGridCellTemplate  let-item>
+    {{ getExamTypeLabel(item.examType) }}
+  </ng-template>
+</flexi-grid-column>
+  <flexi-grid-column field="scheduledAt" title="Tarih/Saat" />
+  <flexi-grid-column field="description" title="Açıklama" />
+  <ng-template #columnCommandTemplate let-item>
+  @if(checkPermission('meeting:participants')){
+  <flexi-button
+    btnColor="secondary"
+    btnSize="small"
+    btnIcon="people"
+    title="Katılımcılar"
+    flexiTooltip
+    [routerLink]="['/meetings/participants', item.id]"/>
+  }
+  </ng-template>
+</grid>
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" data-bs-backdrop="static" [class.show]="showAddModal" [style.display]="showAddModal ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Toplantı Ekle</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <app-add-meeting [key]="addModalKey" (saved)="closeAddModal()"></app-add-meeting>
+      </div>
+    </div>
+  </div>
+</div>

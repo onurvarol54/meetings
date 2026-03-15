@@ -1,0 +1,25 @@
+<grid
+  endpoint="/board-decisions/odata/users"
+  [addOptions]="{url:'/users/add', permission:'user:add'}"
+  [editOptions]="{url:'/users/edit', permission:'user:edit'}"
+  [detailOptions]="{url:'/users/detail', permission:'user:view'}"
+  [deleteOptions]="{url:'/board-decisions/users', permission:'user:delete'}"
+  [breadcrumbs]="breadcrumbs()"
+  [showAudit]="false"
+  pageTitle="Kullanıclar"
+  captionTitle="Kullanıcı Listesi">
+
+
+  <flexi-grid-column field="fullName" title="Ad Soyad">
+    <ng-template flexiGridCellTemplate let-item>
+      {{ item.firstName }} {{ item.lastName }}
+    </ng-template>
+  </flexi-grid-column>
+  <flexi-grid-column field="userName"  title="Kulanıcı Adı" />
+  <flexi-grid-column field="email" title="Email" />
+  <flexi-grid-column field="roleName" title="Rol">
+    <ng-template flexiGridCellTemplate let-item>
+      {{ item.roleName | roleNameTr }}
+    </ng-template>
+  </flexi-grid-column>
+</grid>
