@@ -8,16 +8,7 @@ const router: Routes = [
     loadComponent: () => import('./meetings'),
     canActivate: [() => inject(Common).checkPermissionForRoute('meeting:view')],
   },
-  {
-    path: 'add',
-    loadComponent: () => import('./add/add'),
-    canActivate: [() => inject(Common).checkPermissionForRoute('meeting:add')],
-  },
-  {
-    path: 'edit/:id',
-    loadComponent: () => import('./add/add'),
-    canActivate: [() => inject(Common).checkPermissionForRoute('meeting:edit')],
-  },
+
   // {
   //   path: 'detail/:id',
   //   loadComponent: () => import('./detail/detail'),

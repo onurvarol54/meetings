@@ -1,51 +1,95 @@
-<blank
-  [pageTitle]="pageTitle()"
-  [pageIcon]="pageIcon()"
-  (changeStatusEvent)="changeStatus($event)"
-  [status]="data().isActive"
-  [loading]="loading()"
-  colSize="col-md-5"
->
-  <form #form="ngForm" formValidate class="admin-form" (ngSubmit)="save(form)">
-    <div class="admin-card">
-      <div class="card-header">
-        <h6>
-          <i class="bi bi-info-circle text-primary me-2"></i>Temel Bilgiler
-        </h6>
-      </div>
-      <div class="card-body">
-        <div class="form-group">
-          <label>Başlık (*)</label>
-          <input type="text" class="form-control" [(ngModel)]="data().title" name="title" required />
-          <div class="invalid-feedback">Geçerli bir başlık girin!</div>
-        </div>
+ <div
+      class="modal fade"
+      id="meetingModal"
+      tabindex="-1"
+      aria-hidden="true"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <form #meetingForm="ngForm" formValidate (ngSubmit)="save(meetingForm)">
+            <div class="modal-header">
+              <h5 class="modal-title">
+                {{ title() }}
+              </h5>
 
-        <div class="form-group">
-          <label>Tarih ve Saat (*)</label>
-          <input type="datetime-local" class="form-control" [(ngModel)]="data().scheduledAt" name="scheduledAt" required />
-          <div class="invalid-feedback">Geçerli bir tarih ve saat girin!</div>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                (click)="onClose()"
+              ></button>
+            </div>
+
+            <div class="modal-body">
+              <div class="mb-3">
+                <label class="form-label">Başlık</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="title"
+                  [(ngModel)]="formData.title"
+                  required
+                />
+                <div class="invalid-feedback">Geçerli bir başlık girin!</div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Tarih ve Saat</label>
+                <input
+                  type="datetime-local"
+                  class="form-control"
+                  name="scheduledAt"
+                  [(ngModel)]="formData.scheduledAt"
+                  required
+                />
+                <div class="invalid-feedback">Geçerli bir tarih ve saat girin!</div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Açıklama</label>
+                <textarea
+                  class="form-control"
+                  name="description"
+                  [(ngModel)]="formData.description"
+                  rows="3"
+                ></textarea>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Sınav Tipi</label>
+                <select
+                  class="form-select"
+                  name="examType"
+                  [(ngModel)]="formData.examType"
+                  required
+                >
+                  <option [ngValue]="0">Seçiniz</option>
+                  @for (item of examTypes(); track item.value) {
+                    <option [ngValue]="item.value">{{ item.label }}</option>
+                  }
+                </select>
+                <div class="invalid-feedback">Geçerli bir sınav tipi girin!</div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                data-bs-dismiss="modal"
+                (click)="onClose()"
+              >
+                Kapat
+              </button>
+
+              <button type="submit" class="btn btn-primary" [disabled]="loading()">
+                {{ buttonText() }}
+              </button>
+            </div>
+          </form>
         </div>
-        <div class="form-group">
-          <label>Açıklama</label>
-          <textarea class="form-control" [(ngModel)]="data().description" name="description"></textarea>
-        </div>
-        <div class="form-group">
-          <label>Sınav Tipi (*)</label>
-          <select class="form-control" [(ngModel)]="data().examType" name="examType" required>
-            <option [value]="0" disabled>Seçiniz</option>
-            @for (item of examTypeOptions(); track $index) {
-              <option [value]="item.value" [selected]="data().examType.valueOf() === item.value">{{item.label}}</option>
-            }
-          </select>
-          <div class="invalid-feedback">Geçerli bir sınav tipi girin!</div>
-        </div>
+      </div>
     </div>
-    </div>
-    <div class="form-group mt-2 d-flex justify-content-end">
-      <button type="submit" class="btn btn-primary">
-        <i class="bi" [ngClass]="pageIcon()"></i>
-        {{btnName()}}
-      </button>
-    </div>
-  </form>
-</blank>

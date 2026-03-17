@@ -3,7 +3,7 @@ import { MeetingModel } from './meeting.model';
 
 export interface ParticipantModel extends EntityModel {
   meetingId: string;
-  title: string;
+  title: number;
   firstName: string;
   lastName: string;
   email: string;
@@ -23,7 +23,7 @@ export interface ParticipantModel extends EntityModel {
 export const initialParticipant: ParticipantModel = {
   id: '',
   meetingId: '',
-  title: '',
+  title: 0,
   firstName: '',
   lastName: '',
   email: '',

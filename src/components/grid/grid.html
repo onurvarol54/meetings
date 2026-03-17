@@ -21,7 +21,8 @@
       title="Ekle"
       flexiTooltip />
     }
-    @if (addModalOptions() && checkPermission(addOptions()!.permission)) {
+
+    @if (addModalOptions() && checkPermission(addModalOptions()!.permission)) {
     <flexi-button
       (click)="addModalOptions()?.click()"
       data-bs-toggle="modal"
@@ -67,6 +68,16 @@
     @if (editOptions() && checkPermission(editOptions()!.permission)) {
     <flexi-button
       [routerLink]="[this.editOptions()!.url, item.id]"
+      btnColor="info"
+      btnIcon="edit"
+      btnSize="small"
+      title="Güncelle"
+      flexiTooltip />
+    }
+    @if (editModalOptions() && checkPermission(editModalOptions()!.permission)) {
+    <flexi-button
+      (click)="editModalOptions()?.click()"
+      data-bs-toggle="modal"
       btnColor="info"
       btnIcon="edit"
       btnSize="small"

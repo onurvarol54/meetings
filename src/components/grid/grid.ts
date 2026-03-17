@@ -34,6 +34,19 @@ export interface btnOptions {
   name?: string;
 }
 
+export interface btnAddModalOptions {
+  click: () => void;
+  permission: string;
+  name?: string;
+}
+
+export interface btnEditModalOptions {
+  click: () => void;
+
+  permission: string;
+  name?: string;
+}
+
 export interface btnModalOptions {
   click: () => void;
   permission: string;
@@ -60,8 +73,8 @@ export default class Grid implements AfterViewInit {
   readonly showAudit = input<boolean>(true);
   readonly addOptions = input<btnOptions>();
   readonly editOptions = input<btnOptions>();
-  readonly addModalOptions = input<btnModalOptions>();
-  readonly editModalOptions = input<btnModalOptions>();
+  readonly addModalOptions = input<btnAddModalOptions>();
+  readonly editModalOptions = input<btnEditModalOptions>();
   readonly detailOptions = input<btnOptions>();
   readonly deleteOptions = input<btnOptions>();
   readonly breadcrumbs = input.required<BreadcrumbModel[]>();

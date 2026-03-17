@@ -1,0 +1,192 @@
+<div
+      class="modal fade"
+      id="participantsModal"
+      tabindex="-1"
+      aria-hidden="true"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+    >
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <form #participantForm="ngForm" (ngSubmit)="saveParticipant(participantForm)">
+            <div class="modal-header">
+              <div>
+                <h5 class="modal-title mb-1">Katılımcılar</h5>
+                <div class="text-muted small">
+                  {{ meetingTitle() || 'Toplantı seçilmedi' }}
+                </div>
+              </div>
+
+              <button
+                type="button"
+                class="btn-close"
+                aria-label="Close"
+                (click)="onClose()"
+              ></button>
+            </div>
+
+            <div class="modal-body">
+              <input
+                type="hidden"
+                class="form-control"
+                name="meetingId"
+                [(ngModel)]="formData.meetingId"
+                readonly
+              />
+
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <label class="form-label">Ünvan</label>
+                  <select
+                    class="form-select form-select-lg"
+                    name="title"
+                    [(ngModel)]="formData.title"
+                    required
+                  >
+                    <option [ngValue]="null" disabled>Seçiniz</option>
+                    @for (item of titleList(); track item.value) {
+                      <option [ngValue]="item.value">{{ item.label }}</option>
+                    }
+                  </select>
+                </div>
+
+                <div class="col-md-4">
+                  <label class="form-label">Ad</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="firstName"
+                    [(ngModel)]="formData.firstName"
+                    required
+                  />
+                </div>
+
+                <div class="col-md-4">
+                  <label class="form-label">Soyad</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="lastName"
+                    [(ngModel)]="formData.lastName"
+                    required
+                  />
+                </div>
+
+                <div class="col-md-8">
+                  <label class="form-label">E-posta</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    name="email"
+                    [(ngModel)]="formData.email"
+                    required
+                    email
+                  />
+                </div>
+
+                <div class="col-md-4">
+                  <label class="form-label">Katılımcı Tipi</label>
+                  <select
+                    class="form-select form-select-lg"
+                    name="status"
+                    [(ngModel)]="formData.status"
+                    required
+                  >
+                    <option [ngValue]="null" disabled>Seçiniz</option>
+                    @for (item of statusList(); track item.value) {
+                      <option [ngValue]="item.value">{{ item.label }}</option>
+                    }
+                  </select>
+                </div>
+                <div class="col-12 d-flex justify-content-end">
+                  @if (editingParticipant()) {
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary me-2"
+                      (click)="resetOnlyEntryForm()"
+                    >
+                      İptal
+                    </button>
+                  }
+
+                  <button type="submit" class="btn {{ buttonColor() }}" [disabled]="loading()">
+                    {{ buttonText() }}
+                  </button>
+                </div>
+              </div>
+
+              <hr class="my-4" />
+
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="mb-0">Katılımcılar Listesi</h6>
+                <span class="badge text-bg-secondary">{{ participants().length }}</span>
+              </div>
+
+              @if (listLoading()) {
+                <div class="alert alert-info mb-0">Katılımcılar yükleniyor...</div>
+              } @else if (participants().length === 0) {
+                <div class="alert alert-warning mb-0">Kayıtlı katılımcı bulunmamaktadır.</div>
+              } @else {
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-light">
+                      <tr>
+                        <th style="width: 60px;">#</th>
+                        <th>Ad Soyad</th>
+                        <th>E-posta</th>
+                        <th>Katılımcı Tipi</th>
+                        <th style="width: 100px;">İşlem</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (item of participants(); track $index) {
+                        <tr>
+                          <td>{{ $index + 1 }}</td>
+                          <td>
+                            {{ getTitleLabel(+item.title) }} {{ item.firstName }}
+                            {{ item.lastName }}
+                          </td>
+                          <td>{{ item.email }}</td>
+                          <td>{{ getStatusLabel(+item.status) }}</td>
+                          <td>
+                            <button
+                              type="button"
+                              class="btn btn-sm btn-outline-warning"
+                              (click)="editParticipant(item)"
+                            >
+                              <i class="bi bi-pencil" title="Katılımcıyı Güncelle"></i>
+                            </button>
+                            <button
+                              type="button"
+                              class="btn btn-sm btn-outline-danger ms-2"
+                              (click)="
+                                delete(
+                                  item.id,
+                                  getTitleLabel(+item.title) +
+                                    ' ' +
+                                    item.firstName +
+                                    ' ' +
+                                    item.lastName
+                                )
+                              "
+                            >
+                              <i class="bi bi-trash" title="Katılımcıyı Sil"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              }
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary" (click)="onClose()">
+                Kapat
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
