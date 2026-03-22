@@ -1,1 +1,101 @@
-<p>meeting works!</p>
+<div class="meeting-page py-5">
+  <div class="container-fluid px-3 px-lg-4">
+    <div class="meeting-shell mx-auto">
+
+      <div class="meeting-topbar">
+        <div>
+          <h2 class="meeting-title mb-1">{{ meetingTitle() }}</h2>
+          <div class="meeting-subtitle">
+            {{ getExamTypeLabel(meeting()?.examType?.value) }}
+            •
+            {{ meetingDate() | date:'dd.MM.yyyy HH:mm' }}
+          </div>
+        </div>
+
+        <div class="meeting-user text-end">
+          <div class="fw-semibold">{{getParticipantTitleLabel(meeting()?.participantStatus) }} {{ meeting()?.fullName }}</div>
+          <div class="small text-muted">{{ meeting()?.email }}</div>
+        </div>
+      </div>
+
+      <div class="meeting-content">
+        <div class="video-section">
+          <div class="main-video-card">
+            <div class="main-video-inner">
+              <div class="video-placeholder-logo">
+                <i class="bi bi-camera-video-off-fill"></i>
+              </div>
+              <div class="video-muted-text">Kamera kapalı</div>
+            </div>
+
+            <div class="meeting-controls">
+              <button class="control-btn">
+                <i class="bi bi-mic-fill"></i>
+                <span>Mikrofon</span>
+              </button>
+
+              <button class="control-btn">
+                <i class="bi bi-camera-video-fill"></i>
+                <span>Kamera</span>
+              </button>
+
+              <button class="control-btn">
+                <i class="bi bi-display-fill"></i>
+                <span>Paylaş</span>
+              </button>
+
+              <button class="control-btn">
+                <i class="bi bi-record-circle-fill"></i>
+                <span>Kayıt</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="sidebar-section">
+          <div class="participants-card mb-3">
+            <div class="participants-header">
+              <span>Odadaki Kişi Sayısı</span>
+              <strong>{{ participantCount() }}</strong>
+            </div>
+
+            <div class="mini-videos">
+              <div class="mini-video">
+                <div class="mini-avatar">{{ meeting()?.fullName?.charAt(0) || 'K' }}</div>
+                <div class="mini-name">{{getParticipantTitleLabel(meeting()?.participantStatus) }} {{ meeting()?.fullName }}</div>
+              </div>
+
+              <div class="mini-video">
+                <div class="mini-avatar bg-secondary">S</div>
+                <div class="mini-name">Sistem Katılımcısı</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-card">
+            <div class="chat-header">Sohbet</div>
+
+            <div class="chat-messages">
+              @for (item of messages(); track $index) {
+                <div class="chat-item">
+                  <div class="chat-badge">{{ item.sender.charAt(0) }}</div>
+                  <div class="chat-bubble">
+                    <div class="chat-sender">{{ item.sender }}</div>
+                    <div class="chat-text">{{ item.text }}</div>
+                  </div>
+                </div>
+              }
+            </div>
+
+            <div class="chat-input-area">
+              <input type="text" class="form-control" placeholder="Mesaj yazın..." />
+              <button class="btn btn-warning">
+                <i class="bi bi-send-fill"></i>
+              </button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</div>

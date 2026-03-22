@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
 
 @Component({
-  imports: [RouterModule],
+  imports: [RouterModule, RouterOutlet],
   selector: 'app-root',
   template: '<router-outlet/>',
   changeDetection: ChangeDetectionStrategy.OnPush,

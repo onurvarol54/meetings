@@ -2,8 +2,26 @@ import { Route } from '@angular/router';
 import { inject } from '@angular/core';
 import { authGuard } from './guards/auth-guard';
 import { Common } from './services/common';
+import { MeetingPageComponent } from './pages/home/meeting/meeting';
+import { HomePageComponent } from './pages/home/homepage/homepage';
+import { PublicLayoutComponent } from './pages/layouts/public-layout';
 
 export const appRoutes: Route[] = [
+  {
+    path: '',
+    component: PublicLayoutComponent,
+    children: [
+      {
+        path: '',
+        component: HomePageComponent,
+      },
+      {
+        path: 'meeting',
+        component: MeetingPageComponent,
+      },
+    ],
+  },
+
   {
     path: 'unauthorize',
     loadComponent: () => import('./pages/unauthorize/unauthorize'),
@@ -11,10 +29,6 @@ export const appRoutes: Route[] = [
   {
     path: 'unavailable',
     loadComponent: () => import('./pages/unavailable/unavailable'),
-  },
-  {
-    path: '',
-    loadComponent: () => import('./pages/home/homepage/homepage'),
   },
   {
     path: 'login',
