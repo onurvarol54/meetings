@@ -1,0 +1,389 @@
+.meeting-page {
+  background: linear-gradient(180deg, #eef3f8 0%, #dde7f1 100%);
+  min-height: 100vh;
+}
+
+.meeting-shell {
+  max-width: 90rem;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
+  border-radius: 28px;
+  padding: 28px;
+  box-shadow: 0 20px 50px rgba(31, 41, 55, 0.15);
+}
+
+.meeting-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.meeting-title {
+  font-size: 1.3rem;
+  line-height: 1;
+  color: #fff;
+}
+
+
+.meeting-content {
+  display: grid;
+  grid-template-columns: minmax(0, 2.1fr) minmax(320px, 0.9fr);
+  gap: 20px;
+}
+
+.main-video-card,
+.participants-card,
+.chat-card {
+  background: rgba(255, 255, 255, 0.86);
+  border-radius: 24px;
+  box-shadow: 0 14px 35px rgba(15, 23, 42, 0.12);
+}
+
+.main-video-card {
+  overflow: hidden;
+  min-height: 700px;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-video-inner {
+  flex: 1;
+  background: linear-gradient(145deg, #243b72 0%, #101828 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #fff;
+  position: relative;
+}
+
+.video-placeholder-logo {
+  width: 130px;
+  height: 130px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  border: 3px solid rgba(255, 255, 255, 0.7);
+  margin-bottom: 12px;
+}
+
+.video-muted-text {
+  font-size: 1rem;
+  opacity: 0.85;
+}
+
+.meeting-controls {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  padding: 16px;
+  background: #f8fafc;
+  flex-wrap: wrap;
+}
+
+.control-btn {
+  border: none;
+  background: #fff;
+  border-radius: 18px;
+  min-width: 96px;
+  padding: 12px 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  font-size: 0.9rem;
+  transition: 0.2s ease;
+}
+
+.control-btn:hover {
+  transform: translateY(-2px);
+}
+
+.control-btn i {
+  font-size: 1.2rem;
+}
+
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.participants-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.participants-header {
+  background: linear-gradient(90deg, #ff7a18, #ff9f43);
+  color: #fff;
+  padding: 8px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+}
+
+.participants-header strong {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.mini-videos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 4px;
+  padding: 6px;
+}
+
+.mini-video {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mini-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background: #84cc16;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.mini-name {
+  font-size: 0.95rem;
+  color: #0a0f14;
+  font-weight: 400;
+}
+
+.chat-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 360px;
+}
+
+.chat-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid #e5e7eb;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.chat-messages {
+  height: 550px;
+  overflow-y: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+.chat-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+.chat-row.mine {
+  justify-content: flex-end;
+}
+
+.chat-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: #22c55e;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-weight: 600;
+}
+
+
+.chat-bubble {
+  max-width: 75%;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 10px 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.chat-bubble.mine {
+  background: #fff3cd;
+}
+
+.chat-sender {
+  font-size: 0.78rem;
+  color: #6b7280;
+  margin-bottom: 3px;
+}
+
+.chat-text {
+  color: #111827;
+  word-break: break-word;
+}
+
+.typing-indicator {
+  padding: 6px 14px 0 14px;
+  font-size: 0.82rem;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.chat-input-area {
+  display: flex;
+  gap: 10px;
+  padding: 14px 16px;
+  border-top: 1px solid #e5e7eb;
+  background: #fff;
+}
+
+.chat-input-area .form-control {
+  border-radius: 14px;
+}
+
+.chat-input-area .btn {
+  border-radius: 14px;
+  min-width: 52px;
+}
+
+@media (max-width: 991.98px) {
+  .meeting-content {
+    grid-template-columns: 1fr;
+  }
+
+  .main-video-card {
+    min-height: 480px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .meeting-shell {
+    border-radius: 18px;
+    padding: 14px;
+  }
+
+  .meeting-topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .meeting-controls {
+    gap: 10px;
+  }
+
+  .control-btn {
+    min-width: 84px;
+    font-size: 0.8rem;
+  }
+}
+
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #fff;
+  background: rgba(15, 23, 42, 0.45);
+}
+
+.object-fit-cover {
+  object-fit: cover;
+}
+
+
+.mini-video-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  /* 🔥 kare yapar */
+  border-radius: 10px;
+  overflow: hidden;
+  background: #0f172a;
+}
+
+.mini-video-element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mini-video-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.mini-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background: #84cc16;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.mini-name {
+  font-size: 0.70rem;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.fullscreen-btn {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 20;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.72);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+  transition: 0.2s ease;
+}
+
+.fullscreen-btn:hover {
+  background: rgba(15, 23, 42, 0.9);
+  transform: scale(1.05);
+}
+
+.fullscreen-btn i {
+  font-size: 1.1rem;
+}

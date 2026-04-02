@@ -113,36 +113,6 @@ export class ParticipantsComponent implements OnInit, OnChanges {
       });
   }
 
-  // addParticipant(form: NgForm) {
-  //   if (!form.valid) {
-  //     form.control.markAllAsTouched();
-  //     return;
-  //   }
-
-  //   const payload: ParticipantModel = {
-  //     ...this.formData,
-  //     meetingId: this.meetingId,
-  //     status: Number(this.formData.status),
-  //     title: Number(this.formData.title),
-  //   };
-
-  //   this.loading.set(true);
-
-  //   this.#http.post<string>(
-  //     '/board-decisions/participants',
-  //     payload,
-  //     (res) => {
-  //       this.#toast.showToast('Başarılı', res, 'success');
-  //       this.loading.set(false);
-  //       this.resetOnlyEntryForm();
-  //       this.loadParticipants();
-  //     },
-  //     () => {
-  //       this.loading.set(false);
-  //     },
-  //   );
-  // }
-
   saveParticipant(form: NgForm) {
     if (!form.valid) {
       form.control.markAllAsTouched();
@@ -165,7 +135,7 @@ export class ParticipantsComponent implements OnInit, OnChanges {
         payload,
 
         (res) => {
-          this.#toast.showToast('Başarılı', 'Katılımcı güncellendi', 'success');
+          this.#toast.showToast('Başarılı', res, 'success');
           this.loading.set(false);
 
           this.editingParticipant.set(null);
@@ -193,6 +163,7 @@ export class ParticipantsComponent implements OnInit, OnChanges {
       },
       () => {
         this.loading.set(false);
+        this.loadParticipants();
       },
     );
   }

@@ -1,50 +1,117 @@
-<div class="meeting-page py-5">
+<div class="meeting-page py-3">
   <div class="container-fluid px-3 px-lg-4">
     <div class="meeting-shell mx-auto">
-
-      <div class="meeting-topbar">
-        <div>
-          <h2 class="meeting-title mb-1">{{ meetingTitle() }}</h2>
-          <div class="meeting-subtitle">
-            {{ getExamTypeLabel(meeting()?.examType?.value) }}
-            •
-            {{ meetingDate() | date:'dd.MM.yyyy HH:mm' }}
+      <div class="participants-card mb-3">
+        <div class="participants-header">
+          <div class="text-start">
+            <div class="meeting-title">
+              {{ meetingTitle() }}
+            </div>
+            <div class="small">
+              {{ getExamTypeLabel(meeting()?.examType?.value) }}
+              •
+              {{ meetingDate() | date:'dd.MM.yyyy HH:mm' }}
+            </div>
+          </div>
+          <div class="meeting-user text-end">
+            <div>
+              {{ getParticipantTitleLabel(meeting()?.participantTitle) }}
+              {{ meeting()?.fullName }}
+            </div>
+            <div class="small">{{ meeting()?.email }}</div>
           </div>
         </div>
 
-        <div class="meeting-user text-end">
-          <div class="fw-semibold">{{getParticipantTitleLabel(meeting()?.participantStatus) }} {{ meeting()?.fullName }}</div>
-          <div class="small text-muted">{{ meeting()?.email }}</div>
+        <div class="mini-videos">
+          <div class="mini-video local-mini-video">
+            <div class="mini-video-frame">
+              <video autoplay playsinline muted class="mini-video-element" [appMediaStream]="localStream()"></video>
+
+              @if (!isCameraOn()) {
+              <div class="mini-video-overlay">
+                <div class="mini-avatar">
+                  {{ meeting()?.fullName?.charAt(0) || 'K' }}
+                </div>
+              </div>
+              }
+            </div>
+
+            <div class="mini-name">
+              {{ getParticipantTitleLabel(meeting()?.participantTitle) }}
+              {{ meeting()?.fullName }}
+            </div>
+          </div>
+
+          @for (item of remoteStreams(); track item.connectionId) {
+          <div class="mini-video remote-mini-video">
+            <div class="mini-video-frame">
+              <video autoplay playsinline class="mini-video-element" [appMediaStream]="item.stream"></video>
+
+              @if (!item.stream || item.stream.getVideoTracks().length === 0) {
+              <div class="mini-video-overlay">
+                <div class="mini-avatar bg-secondary">
+                  {{ getRemoteInitial(item.connectionId) }}
+                </div>
+              </div>
+              }
+            </div>
+
+            <div class="mini-name">
+              {{ getRemoteFullLabel(item) }}
+            </div>
+          </div>
+          }
         </div>
       </div>
 
       <div class="meeting-content">
+
         <div class="video-section">
-          <div class="main-video-card">
-            <div class="main-video-inner">
-              <div class="video-placeholder-logo">
-                <i class="bi bi-camera-video-off-fill"></i>
+          <div class="main-video-card" #mainVideoCard>
+            <div class="main-video-inner position-relative">
+              <video autoplay playsinline muted class="w-100 h-100 rounded-4 object-fit-cover"
+                [appMediaStream]="mainVideoStream()"></video>
+
+              <button type="button" class="fullscreen-btn" (click)="toggleFullscreen()" title="Genişlet">
+                <i class="bi" [class.bi-fullscreen]="!isFullscreen()" [class.bi-fullscreen-exit]="isFullscreen()"></i>
+              </button>
+
+              @if (activeScreenShareConnectionId()) {
+              <div class="screen-share-badge">
+                {{ activeScreenShareParticipantName() }} ekran paylaşıyor
               </div>
-              <div class="video-muted-text">Kamera kapalı</div>
+              }
+
+              @if (!mainVideoStream()) {
+              <div class="video-overlay">
+                <div class="video-placeholder-logo">
+                  <i class="bi bi-camera-video-off-fill"></i>
+                </div>
+                <div class="video-muted-text">Kamera kapalı</div>
+              </div>
+              }
             </div>
 
             <div class="meeting-controls">
-              <button class="control-btn">
-                <i class="bi bi-mic-fill"></i>
-                <span>Mikrofon</span>
+              <button class="control-btn" type="button" (click)="toggleMic()">
+                <i class="bi" [class.bi-mic-fill]="isMicOn()" [class.bi-mic-mute-fill]="!isMicOn()"></i>
+                <span>{{ isMicOn() ? 'Mikrofon Açık' : 'Mikrofon Kapalı' }}</span>
               </button>
 
-              <button class="control-btn">
-                <i class="bi bi-camera-video-fill"></i>
-                <span>Kamera</span>
+              <button class="control-btn" type="button" (click)="toggleCamera()">
+                <i class="bi" [class.bi-camera-video-fill]="isCameraOn()"
+                  [class.bi-camera-video-off-fill]="!isCameraOn()"></i>
+                <span>{{ isCameraOn() ? 'Kamera Açık' : 'Kamera Kapalı' }}</span>
               </button>
 
-              <button class="control-btn">
+
+              <button class="control-btn" type="button" (click)="toggleScreenShare()">
                 <i class="bi bi-display-fill"></i>
-                <span>Paylaş</span>
+                <span>{{ isScreenSharing() ? 'Paylaşımı Durdur' : 'Ekran Paylaş' }}</span>
               </button>
 
-              <button class="control-btn">
+
+              <button class="control-btn" type="button">
                 <i class="bi bi-record-circle-fill"></i>
                 <span>Kayıt</span>
               </button>
@@ -53,49 +120,58 @@
         </div>
 
         <aside class="sidebar-section">
-          <div class="participants-card mb-3">
-            <div class="participants-header">
-              <span>Odadaki Kişi Sayısı</span>
-              <strong>{{ participantCount() }}</strong>
-            </div>
 
-            <div class="mini-videos">
-              <div class="mini-video">
-                <div class="mini-avatar">{{ meeting()?.fullName?.charAt(0) || 'K' }}</div>
-                <div class="mini-name">{{getParticipantTitleLabel(meeting()?.participantStatus) }} {{ meeting()?.fullName }}</div>
-              </div>
-
-              <div class="mini-video">
-                <div class="mini-avatar bg-secondary">S</div>
-                <div class="mini-name">Sistem Katılımcısı</div>
-              </div>
-            </div>
-          </div>
 
           <div class="chat-card">
             <div class="chat-header">Sohbet</div>
 
-            <div class="chat-messages">
-              @for (item of messages(); track $index) {
-                <div class="chat-item">
-                  <div class="chat-badge">{{ item.sender.charAt(0) }}</div>
-                  <div class="chat-bubble">
-                    <div class="chat-sender">{{ item.sender }}</div>
-                    <div class="chat-text">{{ item.text }}</div>
-                  </div>
+            <div class="chat-messages" #chatContainer>
+              @if (messages().length === 0) {
+              <div class="chat-item">
+                <div class="chat-badge">S</div>
+                <div class="chat-bubble">
+                  <div class="chat-sender">Sistem</div>
+                  <div class="chat-text">Toplantıya hoş geldiniz.</div>
                 </div>
+              </div>
+              } @else {
+              @for (item of messages(); track $index) {
+              <div class="chat-row" [class.mine]="isMyMessage(item)">
+                @if (!isMyMessage(item)) {
+                <div class="chat-badge">
+                  {{ (item.fullName || 'K').charAt(0) }}
+                </div>
+                }
+
+                <div class="chat-bubble" [class.mine]="isMyMessage(item)">
+                  <div class="chat-sender">
+                    {{ isMyMessage(item) ? 'Ben' : (item.fullName || 'Katılımcı') }}
+                    {{ item.createdAt | date:'short' }}
+                  </div>
+                  <div class="chat-text">{{ item.text }}</div>
+                </div>
+              </div>
+              }
               }
             </div>
+            @if (isTyping()) {
+            <div class="typing-indicator">
+              {{ typingUserName() }} yazıyor...
+            </div>
+            }
 
             <div class="chat-input-area">
-              <input type="text" class="form-control" placeholder="Mesaj yazın..." />
-              <button class="btn btn-warning">
+              <input type="text" class="form-control" placeholder="Mesaj yazın..." [ngModel]="messageText()"
+                (ngModelChange)="onMessageInput($event)" (keydown.enter)="sendMessage()" />
+              <button class="btn btn-warning" type="button" (click)="sendMessage()">
                 <i class="bi bi-send-fill"></i>
               </button>
             </div>
           </div>
         </aside>
+
       </div>
+
     </div>
   </div>
 </div>
